@@ -1,5 +1,7 @@
 import turtle
 import random
+import time
+
 
 turtle.tracer(1, 0)
 
@@ -10,7 +12,7 @@ turtle.setup(size_X, size_Y)
 turtle.penup()
 
 square_size = 20
-start_length = 2
+start_length = 15
 
 pos_list = []
 stamp_list = []
@@ -55,20 +57,24 @@ LEFT_EDGE = -400
 #call functions
 def up():
     global direction
-    direction = UP
-    print("You pressed the up key!")
+    if direction != DOWN:
+        direction = UP
+        print("You pressed the up key!")
 def left():
     global direction
-    direction = LEFT
-    print("You pressed the left key!")
+    if direction != RIGHT:
+        direction = LEFT
+        print("You pressed the left key!")
 def down():
     global direction
-    direction = DOWN
-    print("You pressed the down key!")
+    if direction != UP:
+        direction = DOWN
+        print("You pressed the down key!")
 def right():
     global direction
-    direction = RIGHT
-    print("You pressed the right key!")
+    if direction != LEFT:
+        direction = RIGHT
+        print("You pressed the right key!")
 
 #make turtle listen
 turtle.onkeypress(up, UP_ARROW)
@@ -137,7 +143,9 @@ def move_snake():
         print("You have eaten a food!")
         make_food()
         turtle.clear()
-        turtle.write(len(score) + start_length)
+        turtle.goto(200, 200)
+        turtle.write(len(score), font = ("Arial", 30))
+        turtle .goto(-300, 0)
     else:
         # cleartsamps the tail and makes storage edits
         old_stamp = stamp_list.pop(0)
@@ -149,22 +157,28 @@ def move_snake():
     new_y_pos = new_pos[1]
 
     if new_x_pos >= RIGHT_EDGE:
-        print("You hit the right edge! game over!")
+        turtle.write("You hit the right edge! game over!", font = ("Ariel", 30))
+        time.sleep(2)
         quit()
 
     elif new_x_pos <= LEFT_EDGE:
-        print("You hit the left edge! game over!")
+        turtle.write("You hit the left edge! game over!", font = ("Ariel", 30))
+        time.sleep(2)
         quit()
 
     elif new_y_pos >= UP_EDGE:
-        print("You hit the up edge! game over!")
+        turtle.write("You hit the up edge! game over!", font = ("Ariel", 30))
+        time.sleep(2)
         quit()
 
     elif new_y_pos <= DOWN_EDGE:
-        print("You hit the down edge! game over!")
+        turtle.write("You hit the down edge! game over!", font = ("Ariel", 30))
+        time.sleep(2)
         quit(pos_list)
         
     if pos_list[-1] in pos_list[0:-1]:
+        turtle.write("you hit yourself!", font = ("Ariel", 30))
+        time.sleep(2)
         quit()
         
     turtle.ontimer(move_snake, TIME_STEP)
