@@ -10,12 +10,13 @@ turtle.setup(size_X, size_Y)
 turtle.penup()
 
 square_size = 20
-start_length = 1
+start_length = 2
 
 pos_list = []
 stamp_list = []
 food_pos = []
 food_stamp = []
+score = []
 
 snake = turtle.clone()
 snake.shape("square")
@@ -120,22 +121,28 @@ def move_snake():
         snake.goto(x_pos, y_pos - square_size)
         print("You moved down!")
 
+    # stamp and record the snake's head
     my_pos = snake.pos()
     pos_list.append(my_pos)
     new_stamp = snake.stamp()
     stamp_list.append(new_stamp)
+
+    # if the snake is eating food
     if snake.pos() in food_pos:
         food_ind = food_pos.index(snake.pos())
         food.clearstamp(food_stamps[food_ind])
-        make_food()
         food_pos.pop(food_ind)
+        score.append(food_ind)
         food_stamps.pop(food_ind)
         print("You have eaten a food!")
-        stamp_list.append(1)
-        
-    old_stamp = stamp_list.pop(0)
-    snake.clearstamp(old_stamp)
-    pos_list.pop(0)
+        make_food()
+        turtle.clear()
+        turtle.write(len(score) + start_length)
+    else:
+        # cleartsamps the tail and makes storage edits
+        old_stamp = stamp_list.pop(0)
+        snake.clearstamp(old_stamp)
+        pos_list.pop(0)
 
     new_pos = snake.pos()
     new_x_pos = new_pos[0]
@@ -156,10 +163,11 @@ def move_snake():
     elif new_y_pos <= DOWN_EDGE:
         print("You hit the down edge! game over!")
         quit(pos_list)
+        
     if pos_list[-1] in pos_list[0:-1]:
         quit()
+        
     turtle.ontimer(move_snake, TIME_STEP)
 
 move_snake()
 make_food()
-
