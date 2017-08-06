@@ -12,7 +12,7 @@ turtle.setup(size_X, size_Y)
 turtle.penup()
 
 square_size = 20
-start_length = 15
+start_length = 5
 
 pos_list = []
 stamp_list = []
